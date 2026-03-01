@@ -3,7 +3,7 @@ from extension import db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret1234'
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost:3306/db_tareas"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:root@localhost:3306/db_tareas"
 # initialize the app with the extension
 db.init_app(app)
 from models import Tarea

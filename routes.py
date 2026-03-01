@@ -1,25 +1,46 @@
 from app import app, db
-from flask import render_template
+from flask import render_template, redirect, url_for, request
 import formularios
 from models import Tarea
+
 
 @app.route('/')
 @app.route('/index')
 def index():
         return render_template('index.html', subtitulo = "Actidad en grupo TAI")
 
-@app.route('/sobrenosotros', methods = ['GET', 'POST'])
+@app.route('/sobrenosotros', methods=['GET', 'POST'])
 def sobrenosotros():
-        formulario = formularios.FormAgregarTareas()
-        if formulario.validate_on_submit() :
-                nueva_tarea = Tarea (titulo =  formulario.titulo.data)
-                db.session.add(nueva_tarea)
-                db.session.commit()
-                print('se envio correctamente', formulario.titulo.data)
-                return render_template('sobrenosotros.html', 
-                                       form = formulario,
-                                       titulo = formulario.titulo.data)
-        return render_template('sobrenosotros.html', form = formulario)
+    formulario = formularios.FormAgregarTareas()
+
+    # CREATE
+    if formulario.validate_on_submit():
+        nueva = Tarea(
+            titulo=formulario.titulo.data,
+            descripcion=formulario.descripcion.data
+        )
+        db.session.add(nueva)
+        db.session.commit()
+        return redirect(url_for('sobrenosotros'))
+
+    tareas = Tarea.query.order_by(Tarea.id.desc()).all()
+    total = Tarea.query.count()
+
+    return render_template(
+        'sobrenosotros.html',
+        form=formulario,
+        tareas=tareas,
+        total=total
+    )
+
+@app.route('/completar/<int:id>')
+def completar(id):
+    tarea = Tarea.query.get_or_404(id)
+    tarea.completada = not tarea.completada
+    db.session.commit()
+    return redirect(url_for('sobrenosotros'))
+
+
     
 @app.route('/saludo')
 def saludo():

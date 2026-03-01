@@ -1,9 +1,154 @@
-<h1>Menu Principal</h1>
-    <ul>
-        <li><a href="/index"> Inicio </a>  </li>
-        <li><a href="/sobrenosotros"> Sobre Nosotros </a></li>
-    </ul>
-<hr>
+<!DOCTYPE html>
+<html>
 
-{% block contenido %}
-{% endblock %}
+<head>
+    <title>Gestión de Tareas</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        /* ====== MENU ====== */
+        nav {
+            background: #343a40;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ffc107;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        /* ====== TABLA ====== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #212529;
+            color: white;
+        }
+
+        .pendiente {
+            background: #fff3cd;
+        }
+
+        .completada {
+            background: #d4edda;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .mensaje-vacio {
+            background: #e9ecef;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .btn-crear {
+            background: #0059ff;
+            color: white;
+        }
+
+        .btn-editar {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-eliminar {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-completar {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-pendiente {
+            background: #ffc107;
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            width: 350px;
+            z-index: 1000;
+        }
+
+        .modal input,
+        .modal textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="/index">Inicio</a>
+        <a href="/sobrenosotros">Tareas</a>
+        <a href="/saludo">Saludo</a>
+    </nav>
+
+    <div class="container">
+        {% block contenido %}
+        {% endblock %}
+    </div>
+
+    <script>
+        function abrirModal(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        function cerrarModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+    </script>
+
+</body>
+
+</html>
