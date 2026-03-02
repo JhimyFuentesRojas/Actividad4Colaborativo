@@ -40,6 +40,23 @@ def completar(id):
     db.session.commit()
     return redirect(url_for('sobrenosotros'))
 
+@app.route('/editar/<int:id>', methods=['POST'])
+def editar(id):
+    tarea = Tarea.query.get_or_404(id)
+    formulario = formularios.FormAgregarTareas()
+    if formulario.validate_on_submit():
+        tarea.titulo = formulario.titulo.data
+        tarea.descripcion = formulario.descripcion.data
+        db.session.commit()
+    return redirect(url_for('sobrenosotros'))
+
+@app.route('/eliminar/<int:id>', methods=['POST'])
+def eliminar(id):
+    tarea = Tarea.query.get_or_404(id)
+    db.session.delete(tarea)
+    db.session.commit()
+    return redirect(url_for('sobrenosotros'))
+
 
     
 @app.route('/saludo')
