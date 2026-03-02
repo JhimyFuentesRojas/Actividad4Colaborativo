@@ -19,6 +19,19 @@
     </form>
 </div>
 
+<div id="modalEditar" class="modal">
+    <h3>Editar Tarea</h3>
+    <form id="formEditar" method="post">
+        {{ form.csrf_token }}
+        <label>Título</label><br>
+        <input type="text" id="editTitulo" name="titulo" required><br>
+        <label>Descripción</label><br>
+        <textarea id="editDescripcion" name="descripcion"></textarea><br><br>
+        <button type="submit" class="btn-crear">Guardar</button>
+        <button type="button" onclick="cerrarModal('modalEditar')">Cerrar</button>
+    </form>
+</div>
+
 <br><br>
 
 {% if tareas and tareas|length > 0 %}
@@ -63,16 +76,21 @@
             </a>
             {% endif %}
 
-            <button class="btn-editar">
+            <button class="btn-editar"
+                data-id="{{ tarea.id }}"
+                data-titulo="{{ tarea.titulo }}"
+                data-descripcion="{{ tarea.descripcion }}"
+                onclick="abrirEditar(this)">
                 Editar
             </button>
 
-            <button class="btn-eliminar">
-                Eliminar
-            </button>
+            <form method="post" action="/eliminar/{{ tarea.id }}" style="display:inline"
+                onsubmit="return confirm('¿Seguro que deseas eliminar esta tarea?')">
+                {{ form.csrf_token }}
+                <button type="submit" class="btn-eliminar">Eliminar</button>
+            </form>
         </td>
     </tr>
-
 
     {% endfor %}
 </table>
@@ -82,7 +100,7 @@
 <!-- MENSAJE CUANDO NO HAY TAREAS -->
 <div class="mensaje-vacio">
     No hay tareas registradas todavía.<br><br>
-    Haz clic en <strong>“Nueva Tarea”</strong> para comenzar.
+    Haz clic en <strong>"Nueva Tarea"</strong> para comenzar.
 </div>
 
 {% endif %}

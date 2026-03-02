@@ -147,6 +147,12 @@
             document.getElementById(id).style.display = "none";
         }
 
+        function abrirEditar(btn) {
+            document.getElementById('formEditar').action = '/editar/' + btn.dataset.id;
+            document.getElementById('editTitulo').value = btn.dataset.titulo;
+            document.getElementById('editDescripcion').value = btn.dataset.descripcion;
+            abrirModal('modalEditar');
+        }
     </script>
 
 </body>
